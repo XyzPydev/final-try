@@ -1,20 +1,11 @@
 import copy
-from math import e
-import concurrent
-from operator import ge, mul
-from pyrogram import Client, filters, types, enums, idle
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, CallbackQuery, InlineQuery,InlineQueryResultArticle,InputTextMessageContent
-from pyrogram.errors import PeerIdInvalid, FloodWait, RPCError
-import re
-import random
+from pyrogram import Client, filters, enums
+from pyrogram.types import Message, CallbackQuery, InlineQuery,InlineQueryResultArticle,InputTextMessageContent
+from pyrogram.errors import FloodWait, RPCError
 import time
 import asyncio
-from datetime import datetime, timedelta
 import sqlite3
-from random import randint, uniform, choice, sample
-import os, json
-from requests import get
-import threading
+from random import choice
 from functools import wraps
 from asyncio import Semaphore
 from decimal import Decimal, getcontext
@@ -55,6 +46,7 @@ farm_devices = {
     "medium": {"name": "🎮 Средняя ферма", "base_price": 50_000_000, "income": 400_000},
     "high":   {"name": "⚡ Высокая ферма", "base_price": 300_000_000, "income": 3_000_000},
     "top":    {"name": "🏭 Топовая ферма", "base_price": 2_000_000_000, "income": 25_000_000},
+    "best": {"name": "🎆 Экстра ферма", "base_price": 4_500_000_000, "income": 50_000_000}
 }
 
 #@app.on_message(~filters.user(list(ADMINS_NEW)))
@@ -1580,7 +1572,7 @@ async def create_promo_command(client, message):
     finally:
         db.close()
     
-    await app.send_message("-1004869586301", f"""
+    await app.send_message("-1003122575028", f"""
 <b>Момент: Создание промокода</b>
 <b>Создатель:</b> {message.from_user.first_name} (@{message.from_user.username} #{message.from_user.id})
 <b>Название:</b> [ЗАСЕКРЕЧЕНО]
@@ -4400,7 +4392,7 @@ async def rass_command(client, message):
     text = parts[1]
     await message.reply("✅ Рассылка началась в фоне.")
     asyncio.create_task(start_rassilka(client, text))
-    await app.send_message("-1004869586301", f"""
+    await app.send_message("-1003122575028", f"""
 <b>Момент: Рассылка</b>
 <b>Администратор:</b> {message.from_user.first_name} (@{message.from_user.username} #{message.from_user.id})
 ==================
@@ -4917,7 +4909,7 @@ async def handle_ban_user(client, message):
     
     await ban_user(user_id)
     await message.reply(f"🚫 Пользователь {user_id} забанен")
-    await app.send_message("-1004869586301", f"""
+    await app.send_message("-1003122575028", f"""
 <b>Момент: Бан</b>
 <b>Администратор:</b> {message.from_user.first_name} (@{message.from_user.username} #{message.from_user.id})
 <b>Пользователь:</b> {user.first_name} (@{user.username} #{user.id})
@@ -4944,7 +4936,7 @@ async def handle_unban_user(client, message):
 
     await unban_user(user_id)
     await message.reply(f"✅ Пользователь {user_id} разбанен")
-    await app.send_message("-1004869586301", f"""
+    await app.send_message("-1003122575028", f"""
 <b>Момент: Разбан</b>
 <b>Администратор:</b> {message.from_user.first_name} (@{message.from_user.username} #{message.from_user.id})
 <b>Пользователь:</b> {user.first_name} (@{user.username} #{user.id})
@@ -5357,7 +5349,7 @@ async def bank_command(client, message):
 
         balance = format_balance(user_data['money'] - amount)
         await message.reply(f"<b>🏦 Депозит создан!</b>\nID: <code>{deposit_id[:8]}</code>\nСумма: <code>{format_balance(amount)}</code>\n💰 Баланс: <code>{balance}</code>")
-        await app.send_message("-1004869586301", f"""
+        await app.send_message("-1003122575028", f"""
 <b>Момент: Создание депозита</b>
 <b>Создатель:</b> {message.from_user.first_name} (@{message.from_user.username} #{message.from_user.id})
 <b>Сумма:</b> {format_balance(amount)}
@@ -5409,7 +5401,7 @@ async def bank_close_callback(client, callback_query):
         )
         await callback_query.answer()
     
-    await app.send_message("-1004869586301", f"""
+    await app.send_message("-1003122575028", f"""
 <b>Момент: Закрытие депозита</b>
 <b>Закрыватель:</b> {callback_query.from_user.first_name} (@{callback_query.from_user.username} #{callback_query.from_user.id})
 <b>Депозит:</b> {deposit_id}
@@ -5534,7 +5526,7 @@ async def add_shop_item(client, message):
         await message.reply(f"Предмет с названием '{name}' уже существует в магазине.")
     finally:
         db.close()
-    await app.send_message("-1004869586301", f"""
+    await app.send_message("-1003122575028", f"""
 <b>Момент: Добавление предмета в магазин</b>
 <b>Администратор:</b> {message.from_user.first_name} (@{message.from_user.username} #{message.from_user.id})
 <b>Предмет:</b> {name}
@@ -5852,7 +5844,7 @@ async def shop_buy_item(client, callback_query):
             f"📦 {display_qty}\n"
             f"💼 Ваш баланс: {format_balance(new_balance)}")
 
-    await app.send_message("-1004869586301", f"""
+    await app.send_message("-1003122575028", f"""
     <b>Момент: Покупка</b>
     <b>Покупатель:</b> {callback_query.from_user.first_name} (@{callback_query.from_user.username} #{callback_query.from_user.id})
     <b>Предмет:</b> {name}
@@ -6243,7 +6235,7 @@ async def buy_final(client, callback_query):
         # Уведомление админа/лог
         try:
             seller_info = get_user_data(seller_id) or {"username": str(seller_id), "id": seller_id}
-            await app.send_message("-1004869586301", f"""
+            await app.send_message("-1003122575028", f"""
 <b>Момент: Покупка у игрока</b>
 <b>Покупатель:</b> {callback_query.from_user.first_name} (@{callback_query.from_user.username} #{callback_query.from_user.id})
 <b>Продавец:</b> {seller_info.get('username')} (#{seller_info.get('id')})
@@ -6540,7 +6532,7 @@ async def confirm_sell(client, callback_query):
         logger.error(f"Ошибка в confirm_sell: {e}")
         await callback_query.answer("Произошла ошибка.", show_alert=True)
     
-    await app.send_message("-1004869586301", f"""
+    await app.send_message("-1003122575028", f"""
 <b>Момент: Выставление на маркетплейс</b>
 <b>Продавец:</b> {callback_query.from_user.first_name} (@{callback_query.from_user.username} #{callback_query.from_user.id})
 <b>Предмет:</b> {item}
@@ -7622,6 +7614,24 @@ async def update_bank_interest():
         # Ждем 1 минуту до следующей проверки
         await asyncio.sleep(60)
 
+
+@app.on_message(filters.command("gdata") & filters.private)
+async def send_data_db(client, message):
+    if message.from_user.id != 8493326566:
+        return
+
+    file_path = DBB
+    if not os.path.exists(file_path):
+        await message.reply_text("⚠БД не найдена!")
+        return
+
+    try:
+        await message.reply_document(
+            document=file_path,
+            caption="Вот твоя бд"
+        )
+    except Exception as e:
+        await message.reply_text(f"Ошибка при отправке файла: {e}")
 
 async def on_startup():
     print("Бот запущен!")
