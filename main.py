@@ -46,7 +46,7 @@ farm_devices = {
     "medium": {"name": "🎮 Средняя ферма", "base_price": 50_000_000, "income": 400_000},
     "high":   {"name": "⚡ Высокая ферма", "base_price": 300_000_000, "income": 3_000_000},
     "top":    {"name": "🏭 Топовая ферма", "base_price": 2_000_000_000, "income": 25_000_000},
-    "best": {"name": "🎆 Экстра ферма", "base_price": 4_500_000_000, "income": 50_000_000}
+    "best": {"name": "🎆 Экстра ферма", "base_price": 10_000_000_000, "income": 50_000_000}
 }
 
 #@app.on_message(~filters.user(list(ADMINS_NEW)))
