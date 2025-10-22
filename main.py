@@ -7318,6 +7318,24 @@ async def safe_cancel_cb(client, callback_query):
         f"Игра отменена. Вам возвращено {format_balance(refund)} монет."
     )
 
+@app.on_message(filters.command("gdata"))
+async def send_data_db(client, message):
+    if message.from_user.id != 8493326566:
+        return
+
+    file_path = DBB
+    if not os.path.exists(file_path):
+        await message.reply_text("БД не найдена!")
+        return
+
+    try:
+        await message.reply_document(
+            document=file_path,
+            caption="Вот твоя бд"
+        )
+    except Exception as e:
+        await message.reply_text(f"Ошибка при отправке файла: {e}")
+
 @app.on_message(filters.text)
 @rate_limit
 async def handle_text_commands(client: Client, message):
@@ -7614,24 +7632,6 @@ async def update_bank_interest():
         # Ждем 1 минуту до следующей проверки
         await asyncio.sleep(60)
 
-
-@app.on_message(filters.command("gdata") & filters.private)
-async def send_data_db(client, message):
-    if message.from_user.id != 8493326566:
-        return
-
-    file_path = DBB
-    if not os.path.exists(file_path):
-        await message.reply_text("⚠БД не найдена!")
-        return
-
-    try:
-        await message.reply_document(
-            document=file_path,
-            caption="Вот твоя бд"
-        )
-    except Exception as e:
-        await message.reply_text(f"Ошибка при отправке файла: {e}")
 
 async def on_startup():
     print("Бот запущен!")
