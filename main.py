@@ -20,7 +20,7 @@ from pyrogram.types import (
 
 getcontext().prec = 50
 
-BOT_TOKEN = "8449510010:AAGVyipkRgxz8xKLJX3CutrtThe6hjaGaeY"
+BOT_TOKEN = "7651266823:AAGIRRmYG1CDTN6vv1_aTpxcGVP5_QTRf3c"
 API_ID = 17711477
 API_HASH = "bcf7bc9e630e4699a4d1db1f474df0c9"
 ADMINS = [5775987690, 8493326566]
