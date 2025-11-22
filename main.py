@@ -79,7 +79,7 @@ async def handle_non_admin(client: Client, message: Message):
     text = (
         "В тестовом боте могут работать только админы!\n\n"
         "Разработчик: @iinrange (по вопросам чтобы стать админом писать "
-        '<a href="https://t.me/ferzister">сюда [тык]</a>)'
+        '<a href="https://t.me/dangerizardhe">сюда [тык]</a>)'
     )
     await message.reply_text(
         text, disable_web_page_preview=True, parse_mode=ParseMode.HTML
@@ -105,7 +105,7 @@ async def handle_banned(client, message: Message):
 async def handle_banned(client, message: Message):
     text = "🚫 Вы забанены!\nРазбан: 200 ⭐️"
     kb = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("Купить разбан", url="https://t.me/ferzister")]]
+        [[InlineKeyboardButton("Купить разбан", url="https://t.me/dangerizardhe")]]
     )
     await message.reply(text, reply_markup=kb)
 
@@ -2050,7 +2050,7 @@ async def activate_promo_command(client, message):
                     [
                         [
                             InlineKeyboardButton(
-                                "Зайти в чат", url=f"https://t.me/chatFerzister"
+                                "Зайти в чат", url=f"https://t.me/chatdangerizardhe"
                             )
                         ]
                     ]
@@ -2065,7 +2065,7 @@ async def activate_promo_command(client, message):
                 [
                     [
                         InlineKeyboardButton(
-                            "Зайти в чат", url=f"https://t.me/chatFerzister"
+                            "Зайти в чат", url=f"https://t.me/chatdangerizardhe"
                         )
                     ]
                 ]
@@ -3105,7 +3105,7 @@ async def help_command(client, message):
                 InlineKeyboardButton("🛒 Маркет", callback_data="help:market"),
                 InlineKeyboardButton("🏅 Статусы", callback_data="help:statuses"),
             ],
-            [InlineKeyboardButton("📞 Поддержка", url="https://t.me/ferzister")],
+            [InlineKeyboardButton("📞 Поддержка", url="https://t.me/dangerizardhe")],
         ]
     )
     await message.reply_text(
@@ -3235,7 +3235,7 @@ async def help_section_cb(client, callback_query):
                     InlineKeyboardButton("🛒 Маркет", callback_data="help:market"),
                     InlineKeyboardButton("🏅 Статусы", callback_data="help:statuses"),
                 ],
-                [InlineKeyboardButton("📞 Поддержка", url="https://t.me/ferzister")],
+                [InlineKeyboardButton("📞 Поддержка", url="https://t.me/dangerizardhe")],
             ]
         )
         await callback_query.message.edit_text(
